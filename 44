@@ -1,15 +1,11 @@
-//رغد مش زابط معييي
-ظظ مش شغال
-
-هاذ الي عملته التشك فنكشن غلط
 <form method="post" action ="" >
 username: <input type="text" name="user" /> <br/>
 password: <input type="password" name="pass" /> <br/>
 
 
 <select >
-
-<option  name="i" type="submit"  >  insert   </option> 
+ 
+<option  name="i" type="submit"  >  insert   </option>  
 <option   name="d" type="submit" >  delete  </option> 
 <option  name="u"  type="submit" >  update  </option> 
 <option  name="s " type="submit"  >  select  </option> 
@@ -23,20 +19,20 @@ password: <input type="password" name="pass" /> <br/>
 
 <?php
 
-if(isset($_POST["s"]))
+if(isset($_POST["s"]) && (isset($_POST['run'])) )
 {
     listAllUsers();
 }
-elseif(isset($_POST['i'] ))
+elseif(isset($_POST['i'] ) && (isset($_POST['run'])) )
 {
     InsertUser();
-	checkUser($_POST['user'] , $_POST['pass'] ) ;
+	//checkUser($_POST['user'] , $_POST['pass'] ) ;
 }
-elseif(isset($_POST['u']))
+elseif(isset($_POST['u'])  && (isset($_POST['run'])) )
 {
     UpdateUser();
 }
-elseif(isset($_POST['run']))
+elseif(isset($_POST['d']) && (isset($_POST['run'])) )
 {
     DeleteUser();
 } 
@@ -101,4 +97,63 @@ function DeleteUser()
 	
 }
 
+function UpdateUser()
+	{
+
+	 
+
+		$conn = mysqli_connect("localhost","root","","users") or die("Error connecting to the DB!!!!!");
+
+	 
+
+	$q = "update mytable set username = '$_POST[user]'  where username='$_POST[user]'";
+	$result=mysqli_query($conn, $q);
+
+	 
+	 
+
+	if(($x=mysqli_affected_rows($conn)) > 0){
+		echo "$x rows were affected";
+		
+	}else{echo "No rows were affected";}
+
+	 
+
+	mysqli_close($conn);
+
+	}
+
+ 
+ function listAllUsers()
+	{
+	$conn = mysqli_connect("localhost","root","","users") or die("Error connecting to the DB!!!!!");
+
+
+	 
+
+	$q = "select * from mytable";
+	$result=mysqli_query($conn, $q);
+	
+	
+	
+	 
+
+	echo "<table border=1>";
+	echo "<tr><th>Username</th><th>Password</th>  </tr>";
+	
+	while( $row = mysqli_fetch_assoc($result) )
+
+	{
+		echo "<tr><td>" . $row['username'] . "</td><td>" . $row['password'] . "</td></tr>"; 
+	}
+	echo "</table>";
+
+
+    echo mysqli_num_rows($result);
+ 
+	 
+
+	mysqli_close($conn);
+	}
+	
 ?>
