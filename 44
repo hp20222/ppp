@@ -1,7 +1,8 @@
 <form method="post" action ="" >
 username: <input type="text" name="user" /> <br/>
 password: <input type="password" name="pass" /> <br/>
-
+ // مش شغال صححح في اخطاء 
+ //غيري ف اسماء الفنكشن 
 
 <select >
  
