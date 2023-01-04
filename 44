@@ -1,2 +1,104 @@
 //رغد مش زابط معييي
 ظظ مش شغال
+
+هاذ الي عملته التشك فنكشن غلط
+<form method="post" action ="" >
+username: <input type="text" name="user" /> <br/>
+password: <input type="password" name="pass" /> <br/>
+
+
+<select >
+
+<option  name="i" type="submit"  >  insert   </option> 
+<option   name="d" type="submit" >  delete  </option> 
+<option  name="u"  type="submit" >  update  </option> 
+<option  name="s " type="submit"  >  select  </option> 
+
+<select>
+
+<input type="submit" name="run" value="run" />
+
+</form>
+
+
+<?php
+
+if(isset($_POST["s"]))
+{
+    listAllUsers();
+}
+elseif(isset($_POST['i'] ))
+{
+    InsertUser();
+	checkUser($_POST['user'] , $_POST['pass'] ) ;
+}
+elseif(isset($_POST['u']))
+{
+    UpdateUser();
+}
+elseif(isset($_POST['run']))
+{
+    DeleteUser();
+} 
+
+
+
+function InsertUser()
+	{
+
+	$conn = mysqli_connect("localhost","root","","users") or die("Error connecting to the DB!!!!!");
+
+	$q = "insert into mytable values('$_POST[user]','$_POST[pass]')";
+	$result=mysqli_query($conn, $q);
+
+	if(($x=mysqli_affected_rows($conn)) > 0){
+		echo "$x rows were affected";
+		
+	}else{echo "No rows were affected";}
+
+	mysqli_close($conn);
+
+	}
+	
+	
+function checkUser($u ,$p) {
+
+	$conn = mysqli_connect("localhost","root","","users") or die("Error connecting to the DB!!!!!");
+	
+	$query = "select * from mytable where username = '$u' AND password = '$p' "; 
+	
+	$results = query($query, $conn);
+	if(mysqli_affected_rows($conn) > 0) 
+	{   
+
+		var_dump(mysqli_fetch_array($results));
+	
+	}
+	else 
+		echo"<p style='color:red'>the username exists </p>";
+	
+	mysqli_close($conn);
+	
+
+}
+
+
+function DeleteUser()
+{
+
+	$conn = mysqli_connect("localhost","root","","users") or die("Error connecting to the DB!!!!!");
+
+	$q = "delete from mytable where username ='$_POST[user]'";
+	$result=mysqli_query($conn, $q);
+
+	if(($x=mysqli_affected_rows($conn)) > 0)
+	{
+		echo "$x rows were affected";
+	
+	}   else {echo "No rows were affected";}
+
+	mysqli_close($conn);
+	
+}
+
+?>
